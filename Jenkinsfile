@@ -14,12 +14,8 @@ pipeline {
                 deleteDir()
                 // Checkout kode dari repositori GitHub
                 git url: 'https://github.com/ilham275/template_ethereal.git', branch: 'main'
-                 def dockerPath = sh(script: 'where docker', returnStdout: true).trim()
-                    echo "Docker Path: ${dockerPath}"
-                    sh "export PATH=\$PATH:${dockerPath}"
-
                     // Menjalankan Docker build
-                    sh "docker build -t ${DOCKER_IMAGE} -f Dockerfile ."
+                sh "docker build -t ${DOCKER_IMAGE} -f Dockerfile ."
             }
         }
 

@@ -35,6 +35,16 @@ pipeline {
             }
         }
 
+           stage('Check Docker Version') {
+            steps {
+                script {
+                    // Menggunakan alat Docker dari konfigurasi global
+                    def dockerHome = tool 'docker'
+                    sh "${dockerHome}/bin/docker --version"
+                }
+            }
+        }
+
            stage('Run Docker Container') {
             steps {
                 script {

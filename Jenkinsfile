@@ -28,7 +28,7 @@ pipeline {
         stage('Run Docker Container21212') {
             steps {
                 script {
-                    sh 'echo $PATH'
+                    sh "echo ${PATH}"
                     // Run Docker container based on the built image
                     docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
                 }
@@ -41,6 +41,7 @@ pipeline {
                     // Menggunakan alat Docker dari konfigurasi global
                     def dockerHome = tool 'docker'
                     sh "${dockerHome}/bin/docker --version"
+                    echo "HALLO AAAAA : ${dockerHome}"
                 }
             }
         }

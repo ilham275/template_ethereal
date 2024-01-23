@@ -7,6 +7,7 @@ pipeline {
     }
 
     stages {
+
         // stage('Checkout') {
         //     steps {
         //         // Clean workspace before checkout
@@ -26,7 +27,9 @@ pipeline {
           stage('Run Build Dockerfile') {
             steps {
                 script {
-                    // deleteDir()
+                def dockerPath = sh(script: 'which docker', returnStdout: true).trim()
+                echo "Docker Path: ${dockerPath}"
+                sh "export PATH=\$PATH:${dockerPath}"
                      def currentDir = sh(script: 'pwd', returnStdout: true).trim()
                     echo "Working Directory: ${currentDir}"
                     
@@ -43,6 +46,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
+                    deleteDir()
                     sh 'ls -l'
                     // Run Docker container based on the built image
                     // docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")

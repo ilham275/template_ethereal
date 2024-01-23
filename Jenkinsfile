@@ -1,29 +1,43 @@
 pipeline {
     agent any
+    
     environment {
         DOCKER_IMAGE = 'some-content-nginx'
         CONTAINER_NAME = 'some-nginx10'
-        PORT_MAPPING = '8081:80'  // Adjust the port mapping as needed
+        PORT_MAPPING = '8081:80'
     }
 
     stages {
-        // stage('Checkout') {
-        //     steps {
-        //         // Clean workspace before checkout
-        //         deleteDir()
-        //         // Checkout the HTML source code from GitHub
-        //         git url: 'https://github.com/atoschova'
-        //     }
-        // }
+        stage('Checkout') {
+            steps {
+                // Menghapus direktori sebelum checkout
+                deleteDir()
+                // Checkout kode dari repositori GitHub
+                git url: 'https://github.com/ilham275/template_ethereal.git', branch: 'main'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Mendapatkan path Docker
+                    def dockerPath = sh(script: 'which docker', returnStdout: true).trim()
+                    echo "Docker Path: ${dockerPath}"
+
+                    // Memperbarui PATH
+                    sh "export PATH=\$PATH:${dockerPath}"
+
+                    // Menjalankan Docker build
+                    sh "docker build -t ${DOCKER_IMAGE} ."
+                }
+            }
+        }
+
         stage('Run Docker Container') {
             steps {
                 script {
-                    //     def dockerPath = sh(script: 'where docker', returnStdout: true).trim()
-                    // echo "Docker Path: ${dockerPath}"
-
-                    // Run Docker container based on the built image
-                    // docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
-                      sh 'run -d -p 8081:80 --name some-nginx10 some-content-nginx'
+                    // Menjalankan Docker container
+                    sh "docker run -d -p ${PORT_MAPPING} --name ${CONTAINER_NAME} ${DOCKER_IMAGE}"
                 }
             }
         }
@@ -32,9 +46,9 @@ pipeline {
     post {
         always {
             script {
-                // Stop and remove the Docker container after execution
-                docker.image("${DOCKER_IMAGE}").stop()
-                docker.image("${DOCKER_IMAGE}").remove()
+                // Memberhentikan dan menghapus Docker container setelah selesai
+                sh "docker stop ${CONTAINER_NAME}"
+                sh "docker rm ${CONTAINER_NAME}"
             }
         }
     }

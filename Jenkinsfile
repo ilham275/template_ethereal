@@ -26,6 +26,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
+                    sh 'ls -l'
                     // Run Docker container based on the built image
                     // docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
                     sh 'docker run --name web_server -d -p 8089:80 some-content-nginx'

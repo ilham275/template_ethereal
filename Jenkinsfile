@@ -1,57 +1,23 @@
 pipeline {
     agent any
     environment {
-        PATH = "${PATH}:/usr/bin/jenkis.sh"
-        DOCKER_IMAGE = 'some-content-nginx'
+        DOCKER_IMAGE = 'web'
         CONTAINER_NAME = 'some-nginx10'
         PORT_MAPPING = '8081:80'  // Adjust the port mapping as needed
     }
 
     stages {
-
-        //         stage('Check Docker Version') {
+        // stage('Checkout') {
         //     steps {
-        //         script {
-        //             // Tambahkan path Docker ke PATH jika diperlukan
-        //             sh 'export PATH=$PATH:/usr/bin/docker && docker --version'
-        //         }
+        //         // Clean workspace before checkout
+        //         deleteDir()
+        //         // Checkout the HTML source code from GitHub
+        //         git url: 'https://github.com/atoschova'
         //     }
         // }
-
-        stage('Checkout') {
-            steps {
-                script{
-               echo "Current PATH: ${env.PATH}"
-                }
-            }
-        }
-        stage('Run Docker Container21212') {
+        stage('Run Docker Container') {
             steps {
                 script {
-                    sh "echo ${PATH}"
-                    dir(${env.PATH}){
-                    docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
-                    }
-                    // Run Docker container based on the built image
-                }
-            }
-        }
-
-           stage('Check Docker Version100') {
-            steps {
-                script {
-                    // Menggunakan alat Docker dari konfigurasi global
-                    def dockerHome = tool 'docker'
-                    sh "${dockerHome}/bin/docker --version"
-                    echo "HALLO AAAAA : ${dockerHome}"
-                }
-            }
-        }
-
-           stage('Run Docker Container') {
-            steps {
-                script {
-                    sh 'docker --version'
                     // Run Docker container based on the built image
                     docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
                 }

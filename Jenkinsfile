@@ -15,6 +15,14 @@ pipeline {
         //         git url: 'https://github.com/atoschova'
         //     }
         // }
+
+            // stage('Checkout') {
+            // steps {
+            //     deleteDir()
+            //     checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/ilham275/template_ethereal.git']]])
+            //             // Tambahkan pernyataan log untuk menampilkan direktori saat ini
+            // }
+        }
         stage('Run Docker Container') {
             steps {
                 script {

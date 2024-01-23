@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     // Run Docker container based on the built image
-                    docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
+                   sh 'docker run --name agus -d -p 8090:80 web'
                 }
             }
         }

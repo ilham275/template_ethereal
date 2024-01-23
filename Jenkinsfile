@@ -35,7 +35,7 @@ pipeline {
             }
         }
 
-           stage('Check Docker Version') {
+           stage('Check Docker Version100') {
             steps {
                 script {
                     // Menggunakan alat Docker dari konfigurasi global

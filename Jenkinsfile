@@ -15,11 +15,20 @@ pipeline {
         //         git url: 'https://github.com/atoschova'
         //     }
         // }
+
+            // stage('Checkout') {
+            // steps {
+            //     deleteDir()
+            //     checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/ilham275/template_ethereal.git']]])
+            //             // Tambahkan pernyataan log untuk menampilkan direktori saat ini
+            // }
+        }
         stage('Run Docker Container') {
             steps {
                 script {
                     // Run Docker container based on the built image
-                    docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
+                    // docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
+                    sh 'docker run --name web_server -d -p 8089:80 some-content-nginx'
                 }
             }
         }

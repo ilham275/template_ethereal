@@ -10,11 +10,11 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                echo $PATH
                 // Menghapus direktori sebelum checkout
                 deleteDir()
                 // Checkout kode dari repositori GitHub
                 git url: 'https://github.com/ilham275/template_ethereal.git', branch: 'main'
-
                     // Menjalankan Docker build
                     sh "docker build -t ${DOCKER_IMAGE} -f Dockerfile ."
             }

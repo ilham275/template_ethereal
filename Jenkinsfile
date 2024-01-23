@@ -18,7 +18,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                        def dockerPath = sh(script: 'which docker', returnStdout: true).trim()
+                        def dockerPath = sh(script: 'where docker', returnStdout: true).trim()
                     echo "Docker Path: ${dockerPath}"
 
                     // Run Docker container based on the built image

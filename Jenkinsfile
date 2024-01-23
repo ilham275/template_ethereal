@@ -30,15 +30,12 @@ pipeline {
                 def dockerPath = sh(script: 'command -v docker', returnStdout: true).trim()
                 echo "Docker Path: ${dockerPath}"
                 sh "export PATH=\$PATH:${dockerPath}"
-                     def currentDir = sh(script: 'pwd', returnStdout: true).trim()
-                    echo "Working Directory: ${currentDir}"
+                echo "SECOND DIRECTORT: ${dockerPath}"
                     
                     // Menggunakan 'dir' untuk mengubah direktori kerja
-                    dir(currentDir) {
                     sh 'docker build -t some-content-nginx -f Dockerfile .'
                     // docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
 
-                    }
                     // Run Docker container based on the built image
                 }
             }

@@ -16,13 +16,13 @@ pipeline {
         //     }
         // }
 
-            stage('Checkout') {
-            steps {
-                // deleteDir()
-                checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/ilham275/template_ethereal.git']]])
-                        // Tambahkan pernyataan log untuk menampilkan direktori saat ini
-            }
-        }
+        //     stage('Checkout') {
+        //     steps {
+        //         // deleteDir()
+        //         checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/ilham275/template_ethereal.git']]])
+        //                 // Tambahkan pernyataan log untuk menampilkan direktori saat ini
+        //     }
+        // }
           stage('Run Build Dockerfile') {
             steps {
                 script {
@@ -32,10 +32,11 @@ pipeline {
                     
                     // Menggunakan 'dir' untuk mengubah direktori kerja
                     dir(currentDir) {
-                    sh 'docker build -t some-content-nginx -f Dockerfile .'
+                    // sh 'docker build -t some-content-nginx -f Dockerfile .'
+                    docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
+
                     }
                     // Run Docker container based on the built image
-                    // docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
                 }
             }
         }

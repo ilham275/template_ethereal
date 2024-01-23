@@ -7,7 +7,6 @@ pipeline {
     }
 
     stages {
-
         // stage('Checkout') {
         //     steps {
         //         // Clean workspace before checkout
@@ -16,42 +15,16 @@ pipeline {
         //         git url: 'https://github.com/atoschova'
         //     }
         // }
-
-        //     stage('Checkout') {
-        //     steps {
-        //         // deleteDir()
-        //         checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/ilham275/template_ethereal.git']]])
-        //                 // Tambahkan pernyataan log untuk menampilkan direktori saat ini
-        //     }
-        // }
-          stage('Run Build Dockerfile') {
-            steps {
-                script {
-                def dockerPath = sh(script: 'where docker', returnStdout: true).trim()
-                echo "Docker Path: ${dockerPath}"
-                sh "export PATH=\$PATH:${dockerPath}"
-                echo "SECOND DIRECTORT: ${dockerPath}"
-                    
-                    // Menggunakan 'dir' untuk mengubah direktori kerja
-                    sh 'docker build -t some-content-nginx -f Dockerfile .'
-                    // docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
-
-                    // Run Docker container based on the built image
-                }
-            }
-        }
         stage('Run Docker Container') {
             steps {
                 script {
-                    // deleteDir()
-                    sh 'ls -l'
                     // Run Docker container based on the built image
-                    // docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
-                    sh 'docker run --name web_server -d -p 8089:80 some-content-nginx'
+                    docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
                 }
             }
         }
     }
+
     post {
         always {
             script {

@@ -79,7 +79,7 @@ body, button, input, select, optgroup, textarea {
 }
 
 .logo {
-    font-family: 'Poppins', sans-serif;
+    font-family: cursive;
     font-weight: 600;
     font-size: 28px;
     margin-left: 10px;
@@ -254,6 +254,8 @@ FOOTER
     line-height: 24px;
     font-size: 14px !important;
 }
+
+.single-footer .top-links
 
 .footer-top {
     padding: 80px 0;

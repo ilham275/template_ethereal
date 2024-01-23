@@ -9,14 +9,14 @@ pipeline {
 
     stages {
 
-                stage('Check Docker Version') {
-            steps {
-                script {
-                    // Tambahkan path Docker ke PATH jika diperlukan
-                    sh 'export PATH=$PATH:/usr/bin/docker && docker --version'
-                }
-            }
-        }
+        //         stage('Check Docker Version') {
+        //     steps {
+        //         script {
+        //             // Tambahkan path Docker ke PATH jika diperlukan
+        //             sh 'export PATH=$PATH:/usr/bin/docker && docker --version'
+        //         }
+        //     }
+        // }
 
         stage('Checkout') {
             steps {

@@ -23,6 +23,16 @@ pipeline {
             //             // Tambahkan pernyataan log untuk menampilkan direktori saat ini
             // }
         // }
+          stage('Run Build Dockerfile') {
+            steps {
+                script {
+                    sh 'ls -l'
+                    // Run Docker container based on the built image
+                    // docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
+                    sh 'docker build -t some-content-nginx -f Dockerfile .'
+                }
+            }
+        }
         stage('Run Docker Container') {
             steps {
                 script {

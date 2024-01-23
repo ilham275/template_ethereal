@@ -27,7 +27,7 @@ pipeline {
           stage('Run Build Dockerfile') {
             steps {
                 script {
-                def dockerPath = sh(script: 'command -v docker', returnStdout: true).trim()
+                def dockerPath = sh(script: 'where docker', returnStdout: true).trim()
                 echo "Docker Path: ${dockerPath}"
                 sh "export PATH=\$PATH:${dockerPath}"
                 echo "SECOND DIRECTORT: ${dockerPath}"

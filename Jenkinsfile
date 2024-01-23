@@ -28,9 +28,11 @@ pipeline {
                 script {
                     deleteDir()
                     sh 'ls -l'
+                    dir('/var/jenkins_home/workspace/project_ccit'){
+                    sh 'docker build -t some-content-nginx -f Dockerfile .'
+                    }
                     // Run Docker container based on the built image
                     // docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
-                    sh 'docker build -t some-content-nginx -f Dockerfile .'
                 }
             }
         }

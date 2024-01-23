@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script {
                     sh "echo ${PATH}"
-                    dir('project_test'){
+                    dir(${env.PATH}){
                     docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
                     }
                     // Run Docker container based on the built image

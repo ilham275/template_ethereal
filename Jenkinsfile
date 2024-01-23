@@ -21,14 +21,12 @@ pipeline {
             steps {
                 script {
                     // Mendapatkan path Docker
-                    def dockerPath = sh(script: 'which docker', returnStdout: true).trim()
+                   def dockerPath = sh(script: 'where docker', returnStdout: true).trim()
                     echo "Docker Path: ${dockerPath}"
-
-                    // Memperbarui PATH
                     sh "export PATH=\$PATH:${dockerPath}"
 
                     // Menjalankan Docker build
-                    sh "docker build -t ${DOCKER_IMAGE} ."
+                    sh "docker build -t ${DOCKER_IMAGE} -f Dockerfile ."
                 }
             }
         }

@@ -1,13 +1,35 @@
 pipeline {
     agent any
+    
+    environment {
+        DOCKER_IMAGE = 'some-content-nginx'
+        CONTAINER_NAME = 'some-nginx10'
+        PORT_MAPPING = '8081:80'
+    }
 
     stages {
+        stage('Checkout') {
+            steps {
+                // Menghapus direktori sebelum checkout
+                deleteDir()
+                // Checkout kode dari repositori GitHub
+                git url: 'https://github.com/ilham275/template_ethereal.git', branch: 'main'
+
+                    // Menjalankan Docker build
+                    sh "docker build -t ${DOCKER_IMAGE} -f Dockerfile ."
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'ls -1'
-                    // Build Docker image dari Dockerfile di direktori proyek
-                    sh 'docker build -t web -f Dockerfile .'
+                    // Mendapatkan path Docker
+                   def dockerPath = sh(script: 'where docker', returnStdout: true).trim()
+                    echo "Docker Path: ${dockerPath}"
+                    sh "export PATH=\$PATH:${dockerPath}"
+
+                    // Menjalankan Docker build
+                    sh "docker build -t ${DOCKER_IMAGE} -f Dockerfile ."
                 }
             }
         }
@@ -15,11 +37,19 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    // Jalankan Docker container dari image yang telah dibangun
-                    def containerName = 'nama-container'
-                    def portMapping = '8080:80'  // Sesuaikan port mapping sesuai kebutuhan
-                    docker.image("web").run("-p ${portMapping} --name ${containerName}")
+                    // Menjalankan Docker container
+                    sh "docker run -d -p ${PORT_MAPPING} --name ${CONTAINER_NAME} ${DOCKER_IMAGE}"
                 }
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                // Memberhentikan dan menghapus Docker container setelah selesai
+                sh "docker stop ${CONTAINER_NAME}"
+                sh "docker rm ${CONTAINER_NAME}"
             }
         }
     }

@@ -15,7 +15,7 @@ pipeline {
                 // Checkout kode dari repositori GitHub
                 git url: 'https://github.com/ilham275/template_ethereal.git', branch: 'main'
                     // Menjalankan Docker build
-                sh "docker build -t ${DOCKER_IMAGE} -f Dockerfile ."
+                sh "docker build -t ${BUILD_NUMBER} -f Dockerfile ."
             }
         }
 
@@ -25,10 +25,10 @@ pipeline {
                     // Mendapatkan path Docker
                    def dockerPath = sh(script: 'where docker', returnStdout: true).trim()
                     echo "Docker Path: ${dockerPath}"
-                    sh "export PATH=\$PATH:${dockerPath}"
+                    bat "export PATH=\$PATH:${dockerPath}"
 
                     // Menjalankan Docker build
-                    sh "docker build -t ${DOCKER_IMAGE} -f Dockerfile ."
+                    bat "docker build -t ${DOCKER_IMAGE} -f Dockerfile ."
                 }
             }
         }
@@ -37,7 +37,7 @@ pipeline {
             steps {
                 script {
                     // Menjalankan Docker container
-                    sh "docker run -d -p ${PORT_MAPPING} --name ${CONTAINER_NAME} ${DOCKER_IMAGE}"
+                    bat "docker run -d -p ${PORT_MAPPING} --name ${CONTAINER_NAME} ${DOCKER_IMAGE}"
                 }
             }
         }

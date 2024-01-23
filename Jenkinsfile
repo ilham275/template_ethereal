@@ -20,7 +20,9 @@ pipeline {
 
         stage('Checkout') {
             steps {
+                script{
                echo "Current PATH: ${env.PATH}"
+                }
             }
         }
         stage('Run Docker Container') {

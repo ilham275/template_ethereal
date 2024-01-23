@@ -22,7 +22,8 @@ pipeline {
                     // echo "Docker Path: ${dockerPath}"
 
                     // Run Docker container based on the built image
-                    docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
+                    // docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
+                      sh '/usr/bin/docker run -d -p 8081:80 --name some-nginx10 some-content-nginx'
                 }
             }
         }

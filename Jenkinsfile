@@ -18,7 +18,7 @@ pipeline {
 
             stage('Checkout') {
             steps {
-                deleteDir()
+                // deleteDir()
                 checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/ilham275/template_ethereal.git']]])
                         // Tambahkan pernyataan log untuk menampilkan direktori saat ini
             }
@@ -26,7 +26,8 @@ pipeline {
           stage('Run Build Dockerfile') {
             steps {
                 script {
-                    deleteDir()
+                    // deleteDir()
+                      sh 'pwd' 
                     sh 'ls -l'
                     dir('/var/jenkins_home/workspace/project_ccit'){
                     sh 'docker build -t some-content-nginx -f Dockerfile .'

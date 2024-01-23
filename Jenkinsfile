@@ -1,6 +1,7 @@
 pipeline {
     agent any
     environment {
+        PATH = "${PATH}:/usr/bin/docker"
         DOCKER_IMAGE = 'some-content-nginx'
         CONTAINER_NAME = 'some-nginx10'
         PORT_MAPPING = '8081:80'  // Adjust the port mapping as needed

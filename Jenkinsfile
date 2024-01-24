@@ -58,8 +58,8 @@ pipeline {
         always {
             script {
                 // Stop and remove the Docker container after execution
-                docker.container(CONTAINER_NAME).stop()
-                docker.container(CONTAINER_NAME).remove(force: true)
+                docker.container(${CONTAINER_NAME}).stop()
+                docker.container(${CONTAINER_NAME}).remove(force: true)
             }
         }
     }

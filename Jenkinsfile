@@ -1,9 +1,10 @@
 pipeline {
-    agent any
+    // agent any
+    agent { dockerfile true }
     environment {
-        DOCKER_IMAGE = 'web'
-        CONTAINER_NAME = 'some-nginx10'
-        PORT_MAPPING = '8081:80'  // Adjust the port mapping as needed
+        DOCKER_IMAGE = 'test3'
+        CONTAINER_NAME = 'jhgfd'
+        PORT_MAPPING = '8082:80'  // Adjust the port mapping as needed
     }
 
     stages {
@@ -12,14 +13,52 @@ pipeline {
         //         // Clean workspace before checkout
         //         deleteDir()
         //         // Checkout the HTML source code from GitHub
-        //         git url: 'https://github.com/atoschova'
+        //         git url: 'https://github.com/andrinahaura/project1.git'
         //     }
         // }
+            stage('Checkout') {
+                steps {
+                    deleteDir()
+                    checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/ilham275/testdeploy.git']]])
+                          // Tambahkan pernyataan log untuk menampilkan direktori saat ini
+                }
+            }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                      sh 'ls -l'
+                    dir('testdeploy') {
+                        // Build Docker image dengan konten HTML
+                        // sh 'docker build -t test3 -f Dockerfile .'
+                        // docker.build("${DOCKER_IMAGE}",'-f Dockerfile .')
+                        sh '/usr/bin/docker build -t test3 -f Dockerfile .'
+                    }
+                    // // Build Docker image with the HTML content
+                    // docker.build("${DOCKER_IMAGE}", '-f Dockerfile .')
+                }
+            }
+        }
+
+         stage('Build Image') {
+            steps {
+                script {
+                        // Build Docker image dengan konten HTML
+                        // sh 'docker build -t test3 -f Dockerfile .'
+                        docker.build("${DOCKER_IMAGE}",'-f Dockerfile .')
+                        // sh '/usr/bin/docker build -t test3 -f Dockerfile .'
+                    // // Build Docker image with the HTML content
+                    // docker.build("${DOCKER_IMAGE}", '-f Dockerfile .')
+                }
+            }
+        }
+
+    
         stage('Run Docker Container') {
             steps {
                 script {
                     // Run Docker container based on the built image
-                   sh 'docker run --name agus -d -p 8090:80 web'
+                    docker.image("${DOCKER_IMAGE}").run("-p ${PORT_MAPPING} --name ${CONTAINER_NAME}")
                 }
             }
         }

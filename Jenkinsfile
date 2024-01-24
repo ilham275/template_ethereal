@@ -54,12 +54,12 @@ pipeline {
         }
     }
 
-    post {
+      post {
         always {
             script {
                 // Stop and remove the Docker container after execution
-                docker.image("${DOCKER_IMAGE}").stop()
-                docker.image("${DOCKER_IMAGE}").remove()
+                docker.container(CONTAINER_NAME).stop()
+                docker.container(CONTAINER_NAME).remove(force: true)
             }
         }
     }

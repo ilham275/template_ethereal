@@ -1,6 +1,6 @@
 pipeline {
     // agent any
-    agent { dockerfile true }
+    // agent { dockerfile true }
     environment {
         DOCKER_IMAGE = 'test3'
         CONTAINER_NAME = 'jhgfd'
@@ -20,7 +20,7 @@ pipeline {
                 steps {
                     deleteDir()
                     checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://github.com/ilham275/testdeploy.git']]])
-                    docker.build("${DOCKER_IMAGE}",'-f Dockerfile .')
+                    // docker.build("${DOCKER_IMAGE}",'-f Dockerfile .')
 
                 }
             }
